@@ -102,7 +102,7 @@ class parallel_env(ParallelEnv):
     # If your spaces change over time, remove this line (disable caching).
     @functools.lru_cache(maxsize=None)
     def action_space(self, agent):
-        return Discrete(5)
+        return Discrete(6)
 
     def render(self):
         """
@@ -190,4 +190,4 @@ class parallel_env(ParallelEnv):
 
         if self.render_mode == "human":
             self.render()
-        return observations, rewards, terminations, truncations, infos
+        return observations, rewards, terminations, truncations, 

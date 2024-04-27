@@ -120,7 +120,7 @@ from pettingzoo.utils.agent_selector import agent_selector
 
 
 
-[docs]
+
 def env(**kwargs):
     env = raw_env(**kwargs)
     env = wrappers.TerminateIllegalWrapper(env, illegal_reward=-1)
@@ -132,7 +132,7 @@ def env(**kwargs):
 
 
 
-[docs]
+
 class raw_env(AECEnv, EzPickle):
     metadata = {
         "render_modes": ["human", "ansi", "rgb_array"],
@@ -208,21 +208,21 @@ class raw_env(AECEnv, EzPickle):
             }
 
 
-[docs]
+    
     def observation_space(self, agent):
         return self.observation_spaces[agent]
 
 
 
 
-[docs]
+    
     def action_space(self, agent):
         return self.action_spaces[agent]
 
 
 
 
-[docs]
+    
     def observe(self, agent):
         current_index = self.possible_agents.index(agent)
 
@@ -252,7 +252,7 @@ class raw_env(AECEnv, EzPickle):
 
 
 
-[docs]
+    
     def reset(self, seed=None, options=None):
         self.agents = self.possible_agents[:]
 
@@ -282,7 +282,7 @@ class raw_env(AECEnv, EzPickle):
             self.infos[name] = {"legal_moves": []}
 
 
-[docs]
+    
     def step(self, action):
         if (
             self.terminations[self.agent_selection]
@@ -331,7 +331,7 @@ class raw_env(AECEnv, EzPickle):
 
 
 
-[docs]
+    
     def render(self):
         if self.render_mode is None:
             gymnasium.logger.warn(
@@ -377,8 +377,24 @@ class raw_env(AECEnv, EzPickle):
             )
 
 
-[docs]
+    
     def close(self):
         if self.screen is not None:
             pygame.quit()
             self.screen = None
+
+env = raw_env(render_mode="human")
+env.reset(seed=42)
+
+for agent in env.agents:
+    observation, reward, termination, truncation, info = env.last()
+
+    if termination or truncation:
+        action = None
+    else:
+        mask = observation["action_mask"]
+        # this is where you would insert your policy
+        action = env.action_space(agent).sample(mask)
+
+    env.step(action)
+env.close()
