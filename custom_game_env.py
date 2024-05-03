@@ -139,13 +139,7 @@ class parallel_env(ParallelEnv):
         hands that are played.
         Returns the observations for each agent
         """
-        self.agents = self.possible_agents[:]
-        self.num_moves = 0
-        observations = {agent: NONE for agent in self.agents}
-        infos = {agent: {} for agent in self.agents}
-        self.state = observations
-
-        return observations, infos
+       
 
     def step(self, actions):
         """

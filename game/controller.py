@@ -7,6 +7,43 @@ class Controller:
     def __init__(self):
         pass
 
+    """
+    Action-Space
+    | 0         | No operation |
+    | 1         | Move up |
+    | 2         | Move right |
+    | 3         | Move left |
+    | 4         | Move upright |
+    | 5         | Move upleft |
+    """
+    def agent_control(self, player, actions):
+        match actions:
+            case 1: #up
+                if player.air_timer < 6:
+                    player.jumping = True
+                player.moving_right = False
+                player.moving_left = False
+            case 2: #right
+                player.jumping = False
+                player.moving_right = True
+                player.moving_left = False
+            case 3: #left
+                player.jumping = False
+                player.moving_right = False
+                player.moving_left = True
+            case 4: #upright
+                if player.air_timer < 6:
+                    player.jumping = True
+                player.moving_right = True
+                player.moving_left = False
+            case 5: #upleft
+                if player.air_timer < 6:
+                    player.jumping = True
+                player.moving_right = False
+                player.moving_left = True
+            case _: #no-op
+                pass
+
     def control_player(self, events, player):
         """
         Take keyboard inputs and update player motion variables.

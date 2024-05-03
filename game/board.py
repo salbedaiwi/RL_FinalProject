@@ -28,7 +28,7 @@ class Board:
 
         Args:
             path::str
-                path to txt file containing chunk data
+                path to txt file containing chunk game/data
         '''
         self._game_map = []
 
@@ -48,24 +48,24 @@ class Board:
         Load all images needed to draw level background and platforms.
 
         Load in level background.Load all board chunk textures from local
-        folder "data/board_textures and save textures in a dictionary.
+        folder "game/data/board_textures and save textures in a dictionary.
         """
-        self._background = pygame.image.load('data/board_textures/wall.png')
+        self._background = pygame.image.load('game/data/board_textures/wall.png')
         # create dictionary that maps a string to a board texture
         self._board_textures = {
-            "100": pygame.image.load('data/board_textures/100.png'),
-            "100": pygame.image.load('data/board_textures/100.png'),
-            "111": pygame.image.load('data/board_textures/111.png'),
-            "112": pygame.image.load('data/board_textures/112.png'),
-            "113": pygame.image.load('data/board_textures/113.png'),
-            "114": pygame.image.load('data/board_textures/114.png'),
-            "121": pygame.image.load('data/board_textures/121.png'),
-            "122": pygame.image.load('data/board_textures/122.png'),
-            "123": pygame.image.load('data/board_textures/123.png'),
-            "124": pygame.image.load('data/board_textures/124.png'),
-            "2": pygame.image.load('data/board_textures/lava.png'),
-            "3": pygame.image.load('data/board_textures/water.png'),
-            "4": pygame.image.load('data/board_textures/goo.png')
+            "100": pygame.image.load('game/data/board_textures/100.png'),
+            "100": pygame.image.load('game/data/board_textures/100.png'),
+            "111": pygame.image.load('game/data/board_textures/111.png'),
+            "112": pygame.image.load('game/data/board_textures/112.png'),
+            "113": pygame.image.load('game/data/board_textures/113.png'),
+            "114": pygame.image.load('game/data/board_textures/114.png'),
+            "121": pygame.image.load('game/data/board_textures/121.png'),
+            "122": pygame.image.load('game/data/board_textures/122.png'),
+            "123": pygame.image.load('game/data/board_textures/123.png'),
+            "124": pygame.image.load('game/data/board_textures/124.png'),
+            "2": pygame.image.load('game/data/board_textures/lava.png'),
+            "3": pygame.image.load('game/data/board_textures/water.png'),
+            "4": pygame.image.load('game/data/board_textures/goo.png')
         }
         # set the colorkey for each image in dictionary
         for texture in self._board_textures.keys():

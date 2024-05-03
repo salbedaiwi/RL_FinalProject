@@ -134,7 +134,7 @@ def env(**kwargs):
 
 
 class raw_env(AECEnv, EzPickle):
-    metadata = {
+    metagame/data = {
         "render_modes": ["human", "ansi", "rgb_array"],
         "name": "chess_v6",
         "is_parallelizable": False,
@@ -176,7 +176,7 @@ class raw_env(AECEnv, EzPickle):
 
         self.board_history = np.zeros((8, 8, 104), dtype=bool)
 
-        assert render_mode is None or render_mode in self.metadata["render_modes"]
+        assert render_mode is None or render_mode in self.metagame/data["render_modes"]
         self.render_mode = render_mode
         self.screen_height = self.screen_width = screen_height
 
@@ -343,7 +343,7 @@ class raw_env(AECEnv, EzPickle):
             return self._render_gui()
         else:
             raise ValueError(
-                f"{self.render_mode} is not a valid render mode. Available modes are: {self.metadata['render_modes']}"
+                f"{self.render_mode} is not a valid render mode. Available modes are: {self.metagame/data['render_modes']}"
             )
 
 
@@ -370,7 +370,7 @@ class raw_env(AECEnv, EzPickle):
 
         if self.render_mode == "human":
             pygame.display.update()
-            self.clock.tick(self.metadata["render_fps"])
+            self.clock.tick(self.metagame/data["render_fps"])
         elif self.render_mode == "rgb_array":
             return np.transpose(
                 np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)

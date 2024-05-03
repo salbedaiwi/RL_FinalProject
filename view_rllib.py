@@ -9,15 +9,18 @@ import os
 import ray
 import supersuit as ss
 from PIL import Image
-from ray.rllib.algorithms.ppo import PPO
+from ray.rllib.algorithms.ppo import PPO, PPOConfig
 from ray.rllib.env.wrappers.pettingzoo_env import PettingZooEnv
+from pettingzoo.utils import parallel_to_aec
 from ray.rllib.models import ModelCatalog
 from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
 from ray.tune.registry import register_env
+from ray.rllib.algorithms.algorithm_config import AlgorithmConfig
 from torch import nn
 
 from pettingzoo.atari import mario_bros_v3
-
+from magma_boy_hydro_girl_env import MagmaBoyHydroGirlEnv
+from ray.rllib.env.wrappers.multi_agent_env_compatibility import MultiAgentEnvCompatibility
 
 class CNNModelV2(TorchModelV2, nn.Module):
     def __init__(self, obs_space, act_space, num_outputs, *args, **kwargs):
@@ -68,7 +71,7 @@ ModelCatalog.register_custom_model("CNNModelV2", CNNModelV2)
 
 
 def env_creator():
-    env = mario_bros_v3.env(
+    env = MagmaBoyHydroGirlEnv(
         # n_pistons=20,
         # time_penalty=-0.1,
         # continuous=True,
@@ -78,7 +81,7 @@ def env_creator():
         # ball_friction=0.3,
         # ball_elasticity=1.5,
         # max_cycles=125,
-        render_mode="rgb_array",
+        render_mode="human",
     )
     env = ss.color_reduction_v0(env, mode="B")
     env = ss.dtype_v0(env, "float32")
@@ -89,7 +92,8 @@ def env_creator():
 
 
 env = env_creator()
-env_name = "mario_bros_v3"
+env = parallel_to_aec(env)
+env_name = "magma_boy_hydro_girl_v0"
 register_env(env_name, lambda config: PettingZooEnv(env_creator()))
 
 
@@ -101,6 +105,17 @@ reward_sum = 0
 frame_list = []
 i = 0
 env.reset()
+
+# while env.agents:
+#     # this is where you would insert your policy
+#     actions = {agent: PPOagent.compute_single_action(env.state()) for agent in env.agents}
+
+#     observations, rewards, terminations, truncations, infos = env.step(actions)
+#     i += 1
+#     if i % (len(env.possible_agents) + 1) == 0:
+#         img = Image.fromarray(env.render())
+#         frame_list.append(img)
+# env.close()
 
 for agent in env.agent_iter():
     observation, reward, termination, truncation, info = env.last()

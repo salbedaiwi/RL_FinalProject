@@ -23,6 +23,9 @@ class Game:
         DISPLAY_SIZE = (34 * CHUNK_SIZE, 25 * CHUNK_SIZE)
         self.display = pygame.Surface(DISPLAY_SIZE)
 
+    def get_display(self):
+        return self.display
+
     def draw_level_screen(self, level_select):
         """
         Draw level selection screen.

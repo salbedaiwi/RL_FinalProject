@@ -8,6 +8,10 @@ import os
 import ray
 import supersuit as ss
 from ray import tune
+
+from pettingzoo import ParallelEnv
+#from pettingzoo.utils import parallel_to_aec, wrappers
+
 from ray.rllib.algorithms.ppo import PPOConfig
 from ray.rllib.env.wrappers.pettingzoo_env import ParallelPettingZooEnv
 from ray.rllib.models import ModelCatalog
@@ -16,7 +20,9 @@ from ray.tune.registry import register_env
 from torch import nn
 
 #from pettingzoo.butterfly import pistonball_v6
-from pettingzoo.atari import mario_bros_v3
+#from pettingzoo.atari import mario_bros_v3
+
+from magma_boy_hydro_girl_env import MagmaBoyHydroGirlEnv
 
 
 class CNNModelV2(TorchModelV2, nn.Module):
@@ -47,7 +53,7 @@ class CNNModelV2(TorchModelV2, nn.Module):
 
 
 def env_creator(args):
-    env = mario_bros_v3.parallel_env(
+    env = MagmaBoyHydroGirlEnv(
         # n_pistons=20,
         # time_penalty=-0.1,
         # continuous=True,
@@ -70,14 +76,14 @@ def env_creator(args):
 if __name__ == "__main__":
     ray.init()
 
-    env_name = "mario_bros_v3"
+    env_name = "magma_boy_hydro_girl_v0"
 
     register_env(env_name, lambda config: ParallelPettingZooEnv(env_creator(config)))
     ModelCatalog.register_custom_model("CNNModelV2", CNNModelV2)
 
     config = (
         PPOConfig()
-        .environment(env=env_name, clip_actions=True)
+        .environment(env=env_name, clip_actions=True, disable_env_checking=True)
         .rollouts(num_rollout_workers=4, rollout_fragment_length=128)
         .training(
             train_batch_size=512,

@@ -9,12 +9,12 @@ from pettingzoo import ParallelEnv
 
 
 class CustomEnvironment(ParallelEnv):
-    """The metadata holds environment constants.
+    """The metagame/data holds environment constants.
 
-    The "name" metadata allows the environment to be pretty printed.
+    The "name" metagame/data allows the environment to be pretty printed.
     """
 
-    metadata = {
+    metagame/data = {
         "name": "custom_environment_v0",
     }
 

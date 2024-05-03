@@ -18,11 +18,11 @@ class Doors:
         Load the images for the door
         """
         # load image of door frame and make transparent
-        self.frame_image = pygame.image.load("data/door_images/door_frame.png")
+        self.frame_image = pygame.image.load("game/data/door_images/door_frame.png")
         self.frame_image.set_colorkey((255, 0, 255))
         # load image of background
         self.door_background = pygame.image.load(
-            "data/door_images/door_background.png")
+            "game/data/door_images/door_background.png")
 
     def make_rects(self):
         """
@@ -86,7 +86,7 @@ class FireDoor(Doors):
         self.frame_location = (door_location[0] - CHUNK_SIZE, door_location[1]
                                - 2 * CHUNK_SIZE)
         # load unique door image
-        self.door_image = pygame.image.load("data/door_images/fire_door.png")
+        self.door_image = pygame.image.load("game/data/door_images/fire_door.png")
         super().__init__()
 
 
@@ -101,5 +101,5 @@ class WaterDoor(Doors):
         self.frame_location = (door_location[0] - CHUNK_SIZE, door_location[1]
                                - 2 * CHUNK_SIZE)
         # load unique door image
-        self.door_image = pygame.image.load("data/door_images/water_door.png")
+        self.door_image = pygame.image.load("game/data/door_images/water_door.png")
         super().__init__()
